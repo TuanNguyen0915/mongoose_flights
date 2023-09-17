@@ -20,7 +20,11 @@
         </div>
         <div>Depart:</div>
         <div>
-          <%= flight.depart %>
+          <%= flight.depart.toDateString() %>
+        </div>
+        <div>Time:</div>
+        <div>
+          <%= flight.timeDepart %>
         </div>
       </section>
       <a href="/flights/<%= flight._id %>/edit"><button>Edit Flight</button></a>

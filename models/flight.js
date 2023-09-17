@@ -13,6 +13,9 @@ const flightSchema = new mongoose.Schema({
   },
   depart: {
     type: Date,
+  },
+  timeDepart: {
+    type: String,
   }
 }, {
   timestamps: true

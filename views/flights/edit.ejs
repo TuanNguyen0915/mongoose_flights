@@ -5,17 +5,17 @@
       <h1>
         <%= title %>
       </h1>
-      <form action="/flights" , method="POST">
+      <form action="/flights/<%= flight._id %>?_method=PUT" , method="POST">
         <!-- airplane -->
         <label for="airplane-select">Airplane:</label>
-        <select name="airplane" id="airplane-select" required>
+        <select name="airplane" id="airplane-select" value="<%= flight.airplane %>" required>
           <option value="American">American</option>
           <option value="SouthWest">SouthWest</option>
           <option value="United">United</option>
         </select>
         <!-- airport -->
         <label for="airport-select">Airport:</label>
-        <select name="airport" id="airport-select" required>
+        <select name="airport" id="airport-select" value="<%= flight.airport %>" required>
           <option value="DEN">DEN</option>
           <option value="AUS">AUS</option>
           <option value="DFW">DFW</option>
@@ -23,12 +23,12 @@
           <option value="SAN">SAN</option>
         </select>
         <label for="flightNo-input">Flight Number:</label>
-        <input type="text" name="flightNo" placeholder="From 10 to 9999" required>
+        <input type="text" name="flightNo" value="<%= flight.flightNo %>" required>
         <label for="depart-input">Depart</label>
-        <input type="date" name="depart">
+        <input type="date" name="depart" value="<%= flight.depart %>">
         <label for="time-depart-input">Time to Depart: </label>
-        <input type="time" name="timeDepart" required>
-        <button type="submit">Submit</button>
+        <input type="time" name="timeDepart" value="<%= flight.timeDepart %>" required>
+        <button type="submit">Update</button>
       </form>
     </main>
 
