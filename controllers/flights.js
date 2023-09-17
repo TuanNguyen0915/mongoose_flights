@@ -8,9 +8,19 @@ function addOneYear() {
 }
 
 function index(req, res) {
-  res.render("flights/index", {
-    title: "All Flights"
-  })
+  Flight.find({})
+    .then(flights => {
+
+      res.render("flights/index", {
+        flights: flights,
+        title: "All Flights"
+      })
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect("/flights/new")
+    })
+
 }
 
 function newFlight(req, res) {
@@ -32,4 +42,19 @@ function create(req, res) {
       res.redirect("/flights/new")
     })
 }
-export { index, newFlight, create }
+
+function show(req, res) {
+  Flight.findById(req.params.flightId)
+    .then(flight => {
+      res.render('flights/show', {
+        title: "Flight Details",
+        flight: flight
+      })
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/flights')
+    })
+}
+
+export { index, newFlight, create, show }

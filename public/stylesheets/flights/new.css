@@ -12,6 +12,7 @@ form * {
 }
 
 form>button {
+  border-radius: 10px;
   grid-column: span 2;
   width: 160px;
   margin-top: 20px;
