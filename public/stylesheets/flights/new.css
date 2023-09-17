@@ -1,0 +1,29 @@
+form {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(2, minmax(auto, 352px));
+  font-size: 20px;
+}
+
+form * {
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+form>button {
+  grid-column: span 2;
+  width: 160px;
+  margin-top: 20px;
+  margin-left: auto;
+  font-size: 22px;
+  background: #579BB1;
+  border: none;
+}
+
+
+button:active,
+button:hover {
+  background: #424748;
+  color: white;
+}
