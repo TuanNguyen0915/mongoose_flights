@@ -18,15 +18,15 @@
         <div>
           <%= flight.flightNo %>
         </div>
-        <div>Depart:</div>
+        <div>Depart Date:</div>
         <div>
-          <%= flight.depart.toDateString() %>
+          <%= flight.departs.toDateString() %>
         </div>
-        <div>Time:</div>
+        <div>Depart Time:</div>
         <div>
-          <%= flight.timeDepart %>
+          <%= flight.departs.toLocaleTimeString() %>
         </div>
       </section>
-      <a href="/flights/<%= flight._id %>/edit"><button>Edit Flight</button></a>
+      <a href=" /flights/<%=flight._id %>/edit"><button>Edit Flight</button></a>
     </main>
     <%- include('../partials/footer') %>

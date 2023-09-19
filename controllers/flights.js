@@ -1,43 +1,49 @@
-import { Flight } from "../models/flight.js"
+import { Flight } from "../models/flight.js";
 
-function addOneYear() {
-  // Add 1 more year from now and reformat
-  let now = new Date()
-  let month = now.getMonth() < 10 ? `0${now.getMonth()}` : now.getMonth()
-  return `${now.getFullYear() + 1}-${month}-${now.getDate()}`
+function newFlight(req, res) {
+  res.render('flights/new', {
+    title: 'Add Flight'
+  })
+}
+
+function create(req, res) {
+  if (req.body.departs === '') delete req.body.departs
+  Flight.create(req.body)
+    .then(flight => {
+      res.redirect('/flights')
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/flights')
+    })
 }
 
 function index(req, res) {
+
   Flight.find({})
     .then(flights => {
-
-      res.render("flights/index", {
-        flights: flights,
-        title: "All Flights"
+      // sort flights data by departs in ascending order.
+      flights = flights.sort((flight1, flight2) => flight1.departs - flight2.departs)
+      res.render('flights/index', {
+        title: 'All Flights',
+        flights: flights
       })
     })
     .catch(err => {
       console.log(err);
-      res.redirect("/flights/new")
+      res.redirect('/flights')
     })
 }
 
-function newFlight(req, res) {
-  res.render('flights/new', {
-    title: "Add Flight"
-  })
-}
 
-
-function create(req, res) {
-  if (req.body.depart === "") req.body.depart = addOneYear()
-  Flight.create(req.body)
+function deleteFlight(req, res) {
+  Flight.findByIdAndDelete(req.params.flightId)
     .then(flight => {
-      res.redirect("/flights")
+      res.redirect('/flights')
     })
     .catch(err => {
       console.log(err);
-      res.redirect("/flights")
+      res.redirect('/flights')
     })
 }
 
@@ -45,7 +51,7 @@ function show(req, res) {
   Flight.findById(req.params.flightId)
     .then(flight => {
       res.render('flights/show', {
-        title: "Flight Details",
+        title: 'Flight Details',
         flight: flight
       })
     })
@@ -55,22 +61,11 @@ function show(req, res) {
     })
 }
 
-function deleteFlight(req, res) {
-  Flight.findByIdAndDelete(req.params.flightId)
-    .then(flight => {
-      res.redirect("/flights")
-    })
-    .catch(err => {
-      console.log(err);
-      res.redirect("/flights")
-    })
-}
-
 function edit(req, res) {
   Flight.findById(req.params.flightId)
     .then(flight => {
       res.render('flights/edit', {
-        title: "Edit Flight",
+        title: 'Edit Flight Information',
         flight: flight
       })
     })
@@ -81,12 +76,17 @@ function edit(req, res) {
 }
 
 function update(req, res) {
+  if (req.body.departs === '') delete req.body.departs
   Flight.findByIdAndUpdate(req.params.flightId, req.body, { new: true })
     .then(flight => {
-      res.render("flights/show", {
-        title: "Flight Details",
-        flight: flight
-      })
+      res.redirect(`/flights/${flight._id}`)
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/flights')
     })
 }
-export { index, newFlight, create, show, deleteFlight, edit, update }
+
+export {
+  newFlight, create, index, deleteFlight, show, edit, update
+}

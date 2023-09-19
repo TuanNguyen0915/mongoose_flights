@@ -5,7 +5,7 @@
       <h1>
         <%= title %>
       </h1>
-      <form action="/flights/<%= flight._id %>?_method=PUT" , method="POST">
+      <form action="/flights/<%= flight._id %>?_method=PUT" , method="POST" autocomplete="off">
         <!-- airplane -->
         <label for="airplane-select">Airplane:</label>
         <select name="airplane" id="airplane-select" value="<%= flight.airplane %>" required>
@@ -24,10 +24,8 @@
         </select>
         <label for="flightNo-input">Flight Number:</label>
         <input type="text" name="flightNo" value="<%= flight.flightNo %>" required>
-        <label for="depart-input">Depart</label>
-        <input type="date" name="depart" value="<%= flight.depart %>">
-        <label for="time-depart-input">Time to Depart: </label>
-        <input type="time" name="timeDepart" value="<%= flight.timeDepart %>" required>
+        <label for="depart-input">Depart:</label>
+        <input type="datetime-local" name="departs" value="<%= flight.departs %>">
         <button type="submit">Update</button>
       </form>
     </main>

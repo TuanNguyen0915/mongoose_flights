@@ -12,14 +12,14 @@
             <th>Airport</th>
             <th>Flight Number</th>
             <th>Depart</th>
-            <th>Time</th>
             <th></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <% flights.forEach(flight=> { %>
-            <tr>
+            <!-- If depart day pass today, the flight's information will be red -->
+            <tr class="<%= flight.departs < new Date()?" has-pass":"" %>">
               <td>
                 <%= flight.airplane %>
               </td>
@@ -30,16 +30,13 @@
                 <%= flight.flightNo %>
               </td>
               <td>
-                <%= flight.depart.toDateString() %>
-              </td>
-              <td>
-                <%= flight.timeDepart %>
+                <%= flight.departs.toDateString() %>
               </td>
               <td>
                 <a href="/flights/<%= flight._id %>">Details</a>
               </td>
               <th>
-                <form action="/flights/<%= flight._id %>?_method=DELETE" method="POST">
+                <form action="/flights/<%= flight._id %>?_method=DELETE" method="POST" autocomplete="off">
                   <button type="submit">X</button>
                 </form>
               </th>

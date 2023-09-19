@@ -46,3 +46,7 @@ a {
 a:visited {
   color: blue;
 }
+
+.has-pass {
+  color: red;
+}

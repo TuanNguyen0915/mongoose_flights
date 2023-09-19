@@ -5,7 +5,7 @@
       <h1>
         <%= title %>
       </h1>
-      <form action="/flights" , method="POST">
+      <form action="/flights" , method="POST" autocomplete="off">
         <!-- airplane -->
         <label for="airplane-select">Airplane:</label>
         <select name="airplane" id="airplane-select" required>
@@ -15,20 +15,18 @@
         </select>
         <!-- airport -->
         <label for="airport-select">Airport:</label>
-        <select name="airport" id="airport-select" required>
-          <option value="DEN">DEN</option>
+        <select name="airport" id="airport-select">
+          <option value="DEN" selected>DEN</option>
           <option value="AUS">AUS</option>
           <option value="DFW">DFW</option>
           <option value="LAX">LAX</option>
           <option value="SAN">SAN</option>
         </select>
         <label for="flightNo-input">Flight Number:</label>
-        <input type="text" name="flightNo" placeholder="From 10 to 9999" required>
-        <label for="depart-input">Depart</label>
-        <input type="date" name="depart">
-        <label for="time-depart-input">Time to Depart: </label>
-        <input type="time" name="timeDepart" required>
-        <button type="submit">Submit</button>
+        <input type="text" id="flightNo-input" name="flightNo" placeholder="From 10 to 9999" required>
+        <label for="depart-input">Depart:</label>
+        <input type="datetime-local" name="departs" id="depart-input">
+        <button type="submit">Add</button>
       </form>
     </main>
 
