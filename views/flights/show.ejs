@@ -1,10 +1,13 @@
 <%- include('../partials/html-head') %>
   <link rel="stylesheet" href="/stylesheets/flights/show.css">
+  <link rel="stylesheet" href="/stylesheets/flights/new.css">
   <%- include('../partials/nav') %>
     <main>
-      <h1>
+      <h1 style="margin-bottom: 20px;">
         <%= title %>
       </h1>
+      <a href=" /flights/<%=flight._id %>/edit"><button>Edit Flight</button></a>
+
       <section>
         <div>Airplane: </div>
         <div>
@@ -26,7 +29,37 @@
         <div>
           <%= flight.departs.toLocaleTimeString() %>
         </div>
+        <div>Tickets:</div>
+        <div>
+          <% if (flight.tickets.length===0) { %>
+            No tickets have bought yet
+            <% } else { %>
+              <ul>
+                <% flight.tickets.forEach(ticket=> { %>
+                  <li>
+                    <%= ticket.seat %> - $<%= ticket.price %>
+                        <form action="/flights/<%= flight._id %>/tickets/<%= ticket._id %>?_method=DELETE" method="POST"
+                          class="delete-btn" autocomplete="off">
+                          <button type="submit">X</button>
+                        </form>
+                  </li>
+                  <% }) %>
+              </ul>
+              <% } %>
+        </div>
       </section>
-      <a href=" /flights/<%=flight._id %>/edit"><button>Edit Flight</button></a>
+      <hr style="width:70%;margin-top: 50px;height: 2px;
+      background: black;border: none;">
+
+      <!-- BUY TICKET SECTION -->
+      <section id="buy-ticket">
+        <h2 style="text-align: center;">Add Ticket</h2>
+        <h2></h2>
+        <form action="/flights/<%= flight._id%>/tickets" method="POST" autocomplete="off">
+          <input name="seat" id="seat-input" required pattern="[A-F][1-9]\d?" placeholder="Ticket number: [A-F][1-99]">
+          <input type="text" name="price" id="price-input" placeholder="Price">
+          <button type="submit" style="margin: 20px auto">Add Ticket</button>
+        </form>
+      </section>
     </main>
     <%- include('../partials/footer') %>

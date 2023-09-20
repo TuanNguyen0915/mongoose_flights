@@ -19,7 +19,6 @@ function create(req, res) {
 }
 
 function index(req, res) {
-
   Flight.find({})
     .then(flights => {
       // sort flights data by departs in ascending order.
@@ -87,6 +86,44 @@ function update(req, res) {
     })
 }
 
+function addTicket(req, res) {
+  Flight.findById(req.params.flightId)
+    .then(flight => {
+      flight.tickets.push(req.body)
+      flight.save()
+        .then(() => {
+          res.redirect(`/flights/${flight._id}`)
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('/flights')
+        })
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/flights')
+    })
+}
+
+function deleteTicket(req, res) {
+  Flight.findById(req.params.flightId)
+    .then(flight => {
+      flight.tickets.id(req.params.ticketId).deleteOne()
+      flight.save()
+        .then(() => {
+          res.redirect(`/flights/${flight._id}`)
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('/flights')
+        })
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/flights')
+    })
+}
+
 export {
-  newFlight, create, index, deleteFlight, show, edit, update
+  newFlight, create, index, deleteFlight, show, edit, update, addTicket, deleteTicket
 }

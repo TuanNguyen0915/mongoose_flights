@@ -28,3 +28,16 @@ button:hover {
   background: #424748;
   color: white;
 }
+
+.delete-btn {
+  display: inline-flex;
+}
+
+.delete-btn>button {
+  font-size: 12px;
+  background: #424748;
+  color: whitesmoke;
+  padding: 5px 10px;
+  width: 100%;
+  margin-left: 20px;
+}
