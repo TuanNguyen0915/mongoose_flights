@@ -1,65 +1,81 @@
 <%- include('../partials/html-head') %>
-  <link rel="stylesheet" href="/stylesheets/flights/show.css">
-  <link rel="stylesheet" href="/stylesheets/flights/new.css">
-  <%- include('../partials/nav') %>
-    <main>
-      <h1 style="margin-bottom: 20px;">
-        <%= title %>
-      </h1>
-      <a href=" /flights/<%=flight._id %>/edit"><button>Edit Flight</button></a>
+<link rel="stylesheet" href="/stylesheets/flights/show.css" />
+<link rel="stylesheet" href="/stylesheets/flights/new.css" />
+<link rel="stylesheet" href="/stylesheets/flights/index.css" />
+<%- include('../partials/nav') %>
+<main>
+  <h1 style="margin-bottom: 20px"><%= title %></h1>
+  <a href=" /flights/<%=flight._id %>/edit"><button>Edit Flight</button></a>
 
-      <section>
-        <div>Airplane: </div>
-        <div>
-          <%= flight.airplane %>
-        </div>
-        <div>Airport:</div>
-        <div>
-          <%= flight.airport %>
-        </div>
-        <div>Flight Number:</div>
-        <div>
-          <%= flight.flightNo %>
-        </div>
-        <div>Depart Date:</div>
-        <div>
-          <%= flight.departs.toDateString() %>
-        </div>
-        <div>Depart Time:</div>
-        <div>
-          <%= flight.departs.toLocaleTimeString() %>
-        </div>
-        <div>Tickets:</div>
-        <div>
-          <% if (flight.tickets.length===0) { %>
-            No tickets have bought yet
-            <% } else { %>
-              <ul>
-                <% flight.tickets.forEach(ticket=> { %>
-                  <li>
-                    <%= ticket.seat %> - $<%= ticket.price %>
-                        <form action="/flights/<%= flight._id %>/tickets/<%= ticket._id %>?_method=DELETE" method="POST"
-                          class="delete-btn" autocomplete="off">
-                          <button type="submit">X</button>
-                        </form>
-                  </li>
-                  <% }) %>
-              </ul>
-              <% } %>
-        </div>
-      </section>
-      <hr style="width:70%;margin-top: 50px;height: 2px;
-      background: black;border: none;">
+  <section>
+    <div>Airplane:</div>
+    <div><%= flight.airplane %></div>
+    <div>Airport:</div>
+    <div><%= flight.airport %></div>
+    <div>Flight Number:</div>
+    <div><%= flight.flightNo %></div>
+    <div>Depart Date:</div>
+    <div><%= flight.departs.toDateString() %></div>
+    <div>Depart Time:</div>
+    <div><%= flight.departs.toLocaleTimeString() %></div>
+    <div>Meals:</div>
+    <ul>
+      <% flight.meals.forEach(meal=> { %>
+      <li><%= meal.name %></li>
+      <% }) %>
+    </ul>
+  </section>
+  <hr style="width: 60%; margin-top: 50px; height: 3px; background: black; border: none" />
+  <form action="/flights/<%= flight._id %>/meals" method="POST" autocomplete="off" style="display: block">
+    <select name="mealId">
+      <% meals.forEach(meal=> { %>
+      <option value="<%= meal._id %>"><%= meal.name %></option>
+      <% }) %>
+    </select>
+    <button type="submit">Add Meal</button>
+  </form>
 
-      <!-- BUY TICKET SECTION -->
-      <section id="buy-ticket">
-        <h2 style="text-align: center;">Add Ticket</h2>
-        <h2></h2>
-        <form action="/flights/<%= flight._id%>/tickets" method="POST" autocomplete="off">
-          <input name="seat" id="seat-input" required pattern="[A-F][1-9]\d?" placeholder="Ticket number: [A-F][1-99]">
-          <input type="text" name="price" id="price-input" placeholder="Price">
-          <button type="submit" style="margin: 20px auto">Add Ticket</button>
-        </form>
-      </section>
-    </main>
-    <%- include('../partials/footer') %>
+  <hr style="width: 60%; margin-top: 50px; height: 3px; background: black; border: none" />
+  <!-- BUY TICKET SECTION -->
+  <table>
+    <thead>
+      <tr>
+        <% if (!flight.tickets.length) { %>
+        <h3>Not ticket added yet.</h3>
+        <% } else { %>
+        <th>Date</th>
+        <th>Seat</th>
+        <th>Price</th>
+        <th></th>
+        <% } %>
+      </tr>
+    </thead>
+    <tbody>
+      <% flight.tickets.forEach(ticket => { %>
+      <tr style="margin: 0; padding: 0">
+        <td style="padding: 0 20px"><%= ticket.createdAt.toLocaleDateString() %></td>
+        <td style="padding: 0 20px"><%= ticket.seat %></td>
+        <td style="padding: 0 20px">$<%= ticket.price %></td>
+        <td style="padding: 0 20px">
+          <form
+            action="/flights/<%= flight._id %>/tickets/<%= ticket._id %>?_method=DELETE"
+            method="POST"
+            class="delete-btn"
+            autocomplete="off"
+          >
+            <button type="submit">X</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <section id="add-ticket">
+    <form action="/flights/<%= flight._id%>/tickets" method="POST" autocomplete="off">
+      <input name="seat" id="seat-input" required pattern="[A-F][1-9]\d?" placeholder="Ticket number: [A-F][1-99]" />
+      <input type="text" name="price" id="price-input" placeholder="Price" />
+      <button type="submit" style="margin: 20px auto">Add Ticket</button>
+    </form>
+  </section>
+</main>
+<%- include('../partials/footer') %>

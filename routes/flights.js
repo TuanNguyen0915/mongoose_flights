@@ -11,11 +11,10 @@ router.get('/:flightId/edit', flightsCtrl.edit)
 
 router.post('/', flightsCtrl.create)
 router.post('/:flightId/tickets', flightsCtrl.addTicket)
+router.post('/:flightId/meals', flightsCtrl.addMeal)
 
 router.put('/:flightId', flightsCtrl.update)
 
 router.delete('/:flightId', flightsCtrl.deleteFlight)
 router.delete('/:flightId/tickets/:ticketId', flightsCtrl.deleteTicket)
 export { router }
-
-let time = new Date().toJSON()
