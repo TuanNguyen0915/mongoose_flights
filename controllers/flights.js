@@ -119,8 +119,7 @@ function deleteTicket(req, res) {
   Flight.findById(req.params.flightId)
     .then((flight) => {
       flight.tickets.id(req.params.ticketId).deleteOne();
-      flight
-        .save()
+      flight.save()
         .then(() => {
           res.redirect(`/flights/${flight._id}`);
         })
@@ -139,8 +138,7 @@ function addMeal(req, res) {
   Flight.findById(req.params.flightId)
     .then((flight) => {
       flight.meals.push(req.body.mealId);
-      flight
-        .save()
+      flight.save()
         .then(() => {
           res.redirect(`/flights/${flight._id}`);
         })
@@ -155,4 +153,19 @@ function addMeal(req, res) {
     });
 }
 
-export { newFlight, create, index, deleteFlight, show, edit, update, addTicket, deleteTicket, addMeal };
+function deleteMeal(req, res) {
+  Flight.findById(req.params.flightId)
+    .then((flight) => {
+      for (let i = 0; flight.meals.length; i++) {
+        if (flight.meals[i] === req.body.mealId) {
+          flight.meals.splice(i, 1)
+          flight.save()
+            .then(() => {
+              res.redirect(`/flights/${flight._id}`);
+            })
+        }
+      }
+    });
+}
+
+export { newFlight, create, index, deleteFlight, show, edit, update, addTicket, deleteTicket, addMeal, deleteMeal };
